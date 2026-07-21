@@ -1,0 +1,37 @@
+---
+description: Security and secrets handling for KnowledgeHub
+alwaysApply: true
+---
+
+# Security
+
+## Auth
+
+- Google OAuth; restrict domain via `ALLOWED_EMAIL_DOMAIN` (default `tothenew.com`).
+- JWT access + refresh secrets (`JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`) — **min 32 chars**, unique per environment.
+- Refresh token in HTTP-only cookie pattern (see `auth` module); web stores access token in Zustand and sends `Authorization: Bearer`.
+- All API routes guarded by default (`JwtAuthGuard`); admin routes also require `ADMIN` role / permissions.
+
+## Secrets
+
+- Never commit `apps/api/.env`, `apps/web/.env.local`, or root `.env.local`.
+- Use `apps/api/.env.example` and `apps/web/.env.example` as templates only.
+- `GEMINI_API_KEY` is for AI — distinct from `GOOGLE_CLIENT_ID`.
+- Do not log tokens, cookies, or SMTP credentials.
+
+## Web client
+
+- `NEXT_PUBLIC_*` vars are public; do not put API secrets there.
+- `NEXT_PUBLIC_ENCRYPTION_KEY` is client-side obfuscation only — not a server secret.
+
+## API hardening
+
+- `helmet` enabled in bootstrap.
+- CORS: `CORS_ORIGIN` must match web origin.
+- Validate uploads via storage module limits and categories.
+- S3: use IAM-scoped credentials in production; empty keys = local dev only.
+
+## Dependencies
+
+- Pin versions in package.json; run `pnpm audit` periodically.
+- No `eval`, unsafe deserialization, or disabled TLS in new code.

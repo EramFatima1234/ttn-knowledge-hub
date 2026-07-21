@@ -1,0 +1,15 @@
+"use client";
+
+import { create } from "zustand";
+
+interface AiDrawerState {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  toggle: () => void;
+}
+
+export const useAiDrawerStore = create<AiDrawerState>((set, get) => ({
+  open: false,
+  setOpen: (open) => set({ open }),
+  toggle: () => set({ open: !get().open }),
+}));

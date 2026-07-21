@@ -1,0 +1,45 @@
+---
+description: KnowledgeHub monorepo architecture and module boundaries
+alwaysApply: true
+---
+
+# Architecture
+
+**KnowledgeHub** (`knowledgehub`) is a pnpm + Turbo monorepo for an internal `@tothenew.com` learning platform.
+
+## Layout
+
+| Path | Package | Role |
+|------|---------|------|
+| `apps/web` | `@knowledgehub/web` | Next.js 16 App Router, port **3000** |
+| `apps/api` | `@knowledgehub/api` | NestJS 11 REST API, port **3001**, prefix `api/v1` |
+| `packages/types` | `@knowledgehub/types` | Shared enums and DTO contracts |
+| `packages/tsconfig` | `@knowledgehub/tsconfig` | Shared TS configs |
+| `docker/docker-compose.yml` | — | PostgreSQL 16 + Elasticsearch 8.15 |
+
+## Request flow
+
+- Web calls API via `NEXT_PUBLIC_API_URL` (`apps/web/src/lib/api.ts`, `fetchApi` / `fetchApiJson`).
+- Next rewrites `/api/*`, `/storage/*`, `/uploads/*` to the API (`apps/web/next.config.ts`).
+- API: global `JwtAuthGuard`, `RolesGuard`, `PermissionsGuard`; responses wrapped by `TransformInterceptor`.
+
+## Backend modules (Nest)
+
+Feature modules under `apps/api/src/modules/`: `auth`, `users`, `videos` (+ streaming), `knowledge-meets`, `knowledge-series`, `engagement`, `feed` (`homepage-feed.service`, recommendations), `search` (postgres | elasticsearch adapters), `notifications`, `mail`, `push`, `jobs` (meet reminders), `progress`, `speakers`, `qa`, `resources`, `studio`, `media`, `admin`, `admin-cms`, `ai` (Gemini).
+
+Prisma schema: `apps/api/prisma/schema.prisma`. Migrations: `apps/api/prisma/migrations/`.
+
+## Frontend structure
+
+- Routes: `apps/web/src/app/(auth)/`, `(app)/` (learner + team + admin).
+- Features: `apps/web/src/features/` (`admin-cms`, `phase8`, `ai`, `explore`).
+- Hooks: `apps/web/src/hooks/`; API client: `apps/web/src/lib/`.
+- Aspire theme: `apps/web/src/styles/knowledgehub.scss`, `globals.scss` — **scope layout styles** (avoid global `header`/`aside` selectors).
+
+## RBAC
+
+Roles: `USER`, `TEAM`, `ADMIN` (`RoleName` in `@knowledgehub/types`). Admin UI: `(app)/admin/*` with `ProtectedRoute`. See `docs/roles-and-permissions.md`.
+
+## Do not regenerate
+
+Extend existing patterns. Shared types belong in `packages/types` when both apps need them.

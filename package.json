@@ -1,0 +1,22 @@
+{
+  "name": "knowledgehub",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "pnpm db:generate && turbo build",
+    "lint": "turbo lint",
+    "db:generate": "pnpm --filter @knowledgehub/api db:generate",
+    "db:migrate": "pnpm --filter @knowledgehub/api db:migrate",
+    "db:seed": "pnpm --filter @knowledgehub/api db:seed",
+    "db:studio": "pnpm --filter @knowledgehub/api db:studio"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,47 @@
+---
+description: NestJS API, Prisma, and module conventions
+globs: apps/api/**/*
+alwaysApply: false
+---
+
+# Backend (`apps/api`)
+
+## Stack
+
+NestJS 11, Prisma 6, PostgreSQL. Config via `@nestjs/config` loaders in `src/config/configuration.ts`. Swagger available in dev.
+
+## Module pattern
+
+- `*.module.ts`, `*.controller.ts`, `*.service.ts`, optional `*.repository.ts`.
+- DTOs: `class-validator` + `class-transformer` in `dto/` folders.
+- Cross-cutting: `src/common/guards`, `filters/http-exception.filter.ts`, `interceptors/transform.interceptor.ts`.
+
+## Admin CMS API
+
+`modules/admin-cms/`: CRUD for meets, series, episodes, speakers, competencies, resources, platform settings, team upload endpoints (`team-meets`, `team-series`). CMS status helpers in `utils/cms-status.util.ts`. URL/metadata fields: `homepageTags`, `displayPriority`, etc. (see Prisma + `homepage-tags.constant.ts`).
+
+## Integrations (env-driven)
+
+| Concern | Providers |
+|---------|-----------|
+| Storage | `LOCAL` (disk under `STORAGE_LOCAL_PATH`) or `S3` |
+| Search | `postgres` full-text or `elasticsearch` |
+| Mail | `console` or `smtp` |
+| Push | `console` or `webpush` (VAPID) |
+| AI | `gemini` (primary); key via `GEMINI_API_KEY` — not `GOOGLE_CLIENT_ID` |
+
+## Streaming
+
+`videos` module: `GET .../playback`, `GET .../stream` with HTTP Range support (`streaming.service.ts`).
+
+## Migrations & seed
+
+- Dev: `pnpm db:migrate` (runs `prisma migrate dev` in api package).
+- Deploy: `pnpm --filter @knowledgehub/api db:migrate:deploy`.
+- Seed: `pnpm db:seed` — sample data; real login is Google OAuth.
+
+## API style
+
+- Prefix: `API_PREFIX` default `api/v1`.
+- Return shapes should match `@knowledgehub/types` where exported.
+- Avoid duplicate keys in object literals when mapping Prisma → admin DTOs.

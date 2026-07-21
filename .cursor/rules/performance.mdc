@@ -1,0 +1,33 @@
+---
+description: Performance guidelines from audit and ongoing work
+globs: apps/web/**/*
+alwaysApply: false
+---
+
+# Performance
+
+Full audit: `docs/performance-report.md` (2026-07-20). **No UI/theme regressions** when optimizing.
+
+## High-impact patterns (keep)
+
+- Fetch **full notifications list** only when the user opens the bell; keep lightweight unread-count polling separately.
+- `next/dynamic` for: mini player, AI FAB, right sidebar, watch-page AI/Q&A/comments/resources.
+- Font subset: Poppins **400–700** only (avoid loading 100–900).
+- Video `preload="metadata"` until user plays.
+- React Query: `refetchOnWindowFocus: false` default; taxonomy `staleTime` ~10 minutes.
+
+## Deferred (need larger refactors)
+
+- Converting `(app)/layout` to RSC-heavy tree.
+- Merging home `dashboard` + `recommendations` APIs.
+- Shrinking Prisma `include` on list endpoints without DTO contract changes.
+- Vendor chunk size (~1.4MB Ant Design + framework) — route splits only mitigate.
+
+## Backend
+
+- Explore/recommendations: multiple Prisma reads per request — consider caching later, not in drive-by PRs.
+- Elasticsearch optional; default local dev uses `SEARCH_PROVIDER=postgres`.
+
+## Profiling
+
+Use React DevTools Profiler and Network tab for before/after claims; document measurable deltas in `docs/performance-report.md` when making new optimizations.

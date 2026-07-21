@@ -1,0 +1,62 @@
+@mixin border-radius($r) {
+    border-radius: $r;
+    -moz-border-radius: $r;
+    -ms-border-radius: $r;
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin align-center {
+    display: flex;
+    align-items: center;
+}
+
+@mixin align-start {
+    display: flex;
+    align-items: flex-start;
+}
+
+@mixin align-end {
+    display: flex;
+    align-items: flex-end;
+}
+
+@mixin align-stretch {
+    display: flex;
+    align-items: stretch;
+}
+
+@mixin justify-center {
+    display: flex;
+    justify-content: center;
+}
+
+@mixin justify-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+@mixin justify-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin justify-between-align-center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin width-height($w: auto, $h: auto) {
+    width: $w;
+    height: $h;
+}

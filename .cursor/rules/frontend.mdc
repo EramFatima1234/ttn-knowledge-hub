@@ -1,0 +1,44 @@
+---
+description: Next.js web app conventions (Ant Design, React Query, Aspire UI)
+globs: apps/web/**/*
+alwaysApply: false
+---
+
+# Frontend (`apps/web`)
+
+## Stack
+
+Next.js 16 App Router, React 19, React Compiler (`reactCompiler: true`), Ant Design **6**, SCSS (Aspire), minimal Tailwind 4. State: Zustand (auth, theme, mini-player), Redux Toolkit (limited), **TanStack React Query v5** for server state.
+
+## Patterns
+
+- Prefer `"use client"` only where needed; authenticated shell is largely client-side today.
+- Data fetching: hooks in `src/hooks/` calling `fetchApiJson` from `src/lib/api.ts` with stable `queryKey`s.
+- Forms: `react-hook-form` + `zod` + `@hookform/resolvers`.
+- Admin CMS UI: `src/features/admin-cms/` (meets, series, episodes, speakers, competencies, resources, content hub).
+- Phase 8 dashboards/widgets: `src/features/phase8/`.
+- AI drawer/FAB: `src/features/ai/` — lazy-load heavy pieces (`next/dynamic`, `ssr: false`) when touching layout.
+
+## Ant Design 6
+
+- `Alert`: use `title` (not deprecated `message`).
+- `Drawer`: use `size` (not legacy `width` alone where Ant 6 expects `size`).
+- Table action columns: ensure icon components are **named imports** from `@ant-design/icons` (undefined icon → "Element type is invalid" in `Cell`).
+- Reuse `AspireButton`, `CmsDataTable`, `AspireTableActions` patterns in admin-cms.
+
+## Video & meets
+
+- `VideoPlayer`: support URL/embed sources and CMS URL metadata previews (`MediaUrlPreview`, `CmsUrlField`).
+- Meets are **recorded sessions** (URL-based workflow in admin CMS), not live event scheduling in learner UI.
+
+## Performance habits
+
+- Defer non-critical fetches (e.g. notifications list until bell opens).
+- Use `next/dynamic` for watch-page sections below the fold and layout extras (mini player, AI FAB, right sidebar).
+- Taxonomy queries: longer `staleTime` (~10m) is acceptable.
+
+## Build / dev
+
+- `output: "standalone"` for containers.
+- On Linux if file watching fails: `WATCHPACK_POLLING=true`.
+- Production build may use webpack: `npx next build --webpack` if default bundler TS edge cases appear.

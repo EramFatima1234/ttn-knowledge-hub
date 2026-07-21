@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2E1C41"/>
+      <stop offset="1" stop-color="#DE1186"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#bg)"/>
+  <circle cx="180" cy="120" r="120" fill="#fff" opacity="0.06"/>
+  <circle cx="1020" cy="300" r="160" fill="#fff" opacity="0.05"/>
+  <text x="80" y="220" fill="#fff" font-family="system-ui,sans-serif" font-size="42" font-weight="700">KnowledgeHub Session</text>
+  <text x="80" y="270" fill="#fff" opacity="0.85" font-family="system-ui,sans-serif" font-size="20">Learn from internal experts</text>
+</svg>

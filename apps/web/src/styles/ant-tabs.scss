@@ -1,0 +1,39 @@
+@import "./common/variables";
+
+body .ant-tabs {
+  .ant-tabs-nav {
+    margin-bottom: 16px;
+
+    &::before {
+      border-bottom: 1px solid #e2e8f0;
+    }
+  }
+
+  .ant-tabs-nav-list {
+    gap: 24px;
+
+    .ant-tabs-tab {
+      padding: 12px 0;
+      margin: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color: $primary_color;
+      transition: all 0.3s;
+
+      .ant-tabs-tab-btn {
+        color: $black_color;
+      }
+
+      &:hover {
+        .ant-tabs-tab-btn {
+          color: $black_color;
+        }
+      }
+    }
+  }
+
+  .ant-tabs-ink-bar {
+    height: 3px !important;
+    background: $secondary_color;
+  }
+}

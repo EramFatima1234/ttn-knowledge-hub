@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#F3F0F7"/>
+  <rect x="48" y="48" width="544" height="264" rx="16" fill="#E8E1F0"/>
+  <circle cx="320" cy="152" r="40" fill="#DE1186" opacity="0.15"/>
+  <path d="M304 168V136L336 152L304 168Z" fill="#DE1186"/>
+  <text x="320" y="248" text-anchor="middle" fill="#6B5B7A" font-family="system-ui,sans-serif" font-size="18" font-weight="600">KnowledgeHub</text>
+</svg>

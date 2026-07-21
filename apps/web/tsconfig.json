@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+
+    // ─── Stricter checks ────────────────────────────────────────────────────
+    // Prevents implicit fallthrough in switch statements
+    "noFallthroughCasesInSwitch": true,
+    // NOTE: noUncheckedIndexedAccess was evaluated and found real bugs (fixed in
+    // homepage-builder/page.tsx array swap). Full enablement requires systematic
+    // refactoring of array index access across ~10+ files. Track as future task.
+    // "noUncheckedIndexedAccess": true,
+
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules", "playwright.config.ts", "e2e/**"]
+}

@@ -1,0 +1,35 @@
+---
+description: Testing and verification expectations
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Testing
+
+## Current state
+
+- **E2E**: Playwright in `apps/web` (`test:e2e`, config `playwright.config.ts`, tests under `e2e/`).
+- **Unit/integration**: no repo-wide Jest/Vitest suite today; rely on typecheck, lint, and manual flows for API.
+
+## Before merging behavior changes
+
+1. `pnpm lint` (turbo) at repo root when feasible.
+2. `pnpm build` or at least `pnpm --filter @knowledgehub/web build` and `pnpm --filter @knowledgehub/api build` after substantive changes.
+3. API smoke: health + affected routes with API running on **3001**.
+4. Web: exercise login (Google), one learner path (home/watch), and admin CMS path if admin code changed.
+
+## Playwright
+
+- Base URL: `http://127.0.0.1:3000` (override `PLAYWRIGHT_WEB_PORT`).
+- Set `PLAYWRIGHT_SKIP_WEB_SERVER=1` when dev server already running.
+- API base for helpers: `apiBaseUrl` in `playwright.config.ts` (port **3001**).
+
+## When adding tests
+
+- Prefer Playwright for critical user journeys (auth gate, watch, admin table actions).
+- For new API logic, add Nest e2e or service tests only if the repo already has a pattern in that module; otherwise document manual test steps in the PR.
+
+## Database
+
+- Use Docker Postgres for local tests; do not point tests at production DB.
+- Reset via `pnpm db:migrate` + `pnpm db:seed` when schema changes.

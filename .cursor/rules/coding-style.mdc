@@ -1,0 +1,35 @@
+---
+description: Repo-wide coding style and change discipline
+alwaysApply: true
+---
+
+# Coding style
+
+## General
+
+- **Minimal diffs**: fix the task; no drive-by refactors or new dependencies without justification.
+- **Match existing code**: naming, folder placement, error handling, and import style in the file you edit.
+- TypeScript strictness: fix TS errors before claiming build green; do not use `any` to silence issues in new code.
+- Shared contracts: add/update types in `packages/types` when web and API both consume them; run `pnpm --filter @knowledgehub/types build` if you change `src/` directly.
+
+## Monorepo commands
+
+- Package manager: **pnpm 9.15.4** (`packageManager` in root `package.json`). Use `npx pnpm@9.15.4` if pnpm is not on PATH.
+- Root: `pnpm dev` (turbo), `pnpm build`, `pnpm lint`, `pnpm db:*`.
+- Node **≥ 20**.
+
+## Naming
+
+- React components: PascalCase files for pages/components under `features/` and `components/`.
+- Hooks: `useSomething.ts`.
+- API: `kebab-case` route segments; Nest controllers use `@Controller('segment')` consistent with existing modules.
+- SCSS: `kh-` prefix for KnowledgeHub layout/theme classes.
+
+## Comments
+
+Only for non-obvious business rules (CMS status transitions, auth refresh, streaming edge cases). Prefer self-explanatory code.
+
+## Git / agents
+
+- Work on feature branches; do not force-push `main`.
+- Do not commit `.env` files or secrets.
