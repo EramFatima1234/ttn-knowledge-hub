@@ -4,7 +4,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Layout, Menu } from "antd";
 import {
   AppstoreOutlined,
-  BarChartOutlined,
   BookOutlined,
   CalendarOutlined,
   CompassOutlined,
@@ -57,7 +56,6 @@ function resolveAdminSelectedKey(pathname: string, tab: string | null): string {
     return "/admin/platform?tab=users";
   }
 
-  if (pathname.startsWith("/admin/reports")) return "/admin/reports";
   if (pathname.startsWith("/admin/settings")) return "/admin/settings";
 
   return pathname;
@@ -111,7 +109,6 @@ function AdminSidebarMenu({
             icon: <TeamOutlined />,
             label: "Platform",
           },
-          { key: "/admin/reports", icon: <BarChartOutlined />, label: "Reports" },
           { key: "/admin/settings", icon: <SettingOutlined />, label: "Settings" },
         ],
       },

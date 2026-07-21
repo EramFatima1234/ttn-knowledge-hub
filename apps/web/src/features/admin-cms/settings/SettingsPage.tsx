@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Col, Form, Input, Row, Select, Switch, message } from "antd";
+import { Col, Form, Input, Row, Select, message } from "antd";
 import {
   useAdminCompetencies,
   usePlatformSettings,
@@ -30,7 +30,10 @@ export default function SettingsPage() {
   return (
     <div className="kh-cms-page">
       {contextHolder}
-      <AdminPageHeader title="Settings" description="Platform configuration, notifications, and feature flags." />
+      <AdminPageHeader
+        title="Settings"
+        description="Homepage banner and theme defaults for the platform."
+      />
 
       <Form form={form} layout="vertical" className="kh-cms-form">
         <section className="kh-cms-panel">
@@ -52,25 +55,6 @@ export default function SettingsPage() {
               </Form.Item>
             </Col>
           </Row>
-        </section>
-
-        <section className="kh-cms-panel">
-          <h2>Email Templates</h2>
-          <Form.Item name="emailWelcomeTemplate" label="Welcome Email Template">
-            <Input.TextArea rows={4} />
-          </Form.Item>
-        </section>
-
-        <section className="kh-cms-panel">
-          <h2>Notification Settings</h2>
-          <Form.Item name="notifyNewSession" label="Notify on new session" valuePropName="checked"><Switch /></Form.Item>
-          <Form.Item name="notifyApproval" label="Notify on approval requests" valuePropName="checked"><Switch /></Form.Item>
-        </section>
-
-        <section className="kh-cms-panel">
-          <h2>Feature Flags</h2>
-          <Form.Item name="featureQa" label="Q&A" valuePropName="checked"><Switch /></Form.Item>
-          <Form.Item name="featureBookmarks" label="Bookmarks" valuePropName="checked"><Switch /></Form.Item>
         </section>
 
         <div className="kh-cms-form__actions">

@@ -13,15 +13,12 @@ import { RoleName } from '@prisma/client';
 import { Permissions, Roles } from '../../common/decorators/auth.decorators';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { VideosService } from '../videos/videos.service';
-import { SearchService } from '../search/search.service';
 import { AdminService } from './admin.service';
-import { AnalyticsService } from './analytics.service';
 import { SearchIndexService } from '../search/search-index.service';
 import {
   CreateAnnouncementDto,
   UpdateAnnouncementDto,
 } from './dto/announcement.dto';
-import { AnalyticsQueryDto } from './dto/analytics-query.dto';
 
 @ApiTags('Admin')
 @ApiBearerAuth()
@@ -30,10 +27,8 @@ import { AnalyticsQueryDto } from './dto/analytics-query.dto';
 export class AdminController {
   constructor(
     private readonly adminService: AdminService,
-    private readonly analyticsService: AnalyticsService,
     private readonly videosService: VideosService,
     private readonly searchIndexService: SearchIndexService,
-    private readonly searchService: SearchService,
   ) {}
 
   @Get('overview')
@@ -41,34 +36,6 @@ export class AdminController {
   @ApiOperation({ summary: 'Admin analytics overview' })
   overview() {
     return this.adminService.overview();
-  }
-
-  @Get('analytics')
-  @Permissions('analytics:view')
-  @ApiOperation({ summary: 'Detailed admin analytics dashboard' })
-  analytics(@Query() query: AnalyticsQueryDto) {
-    return this.analyticsService.getAnalytics(query.days ?? 30);
-  }
-
-  @Get('reports')
-  @Permissions('analytics:view')
-  @ApiOperation({ summary: 'Platform reports summary' })
-  reports() {
-    return this.analyticsService.getReports();
-  }
-
-  @Get('search/analytics')
-  @Permissions('analytics:view')
-  @ApiOperation({ summary: 'Search analytics dashboard data' })
-  searchAnalytics() {
-    return this.searchService.searchAnalyticsDashboard();
-  }
-
-  @Get('feedback/recent')
-  @Permissions('analytics:view')
-  @ApiOperation({ summary: 'Recent session feedback' })
-  recentFeedback() {
-    return this.adminService.recentFeedback();
   }
 
   @Post('search/reindex')

@@ -39,14 +39,8 @@ const adminSections = [
     icon: <TeamOutlined />,
   },
   {
-    title: "Reports",
-    description: "View platform analytics",
-    href: "/admin/reports",
-    icon: <BarChartOutlined />,
-  },
-  {
     title: "Settings",
-    description: "Homepage and platform preferences",
+    description: "Homepage banner and theme defaults",
     href: "/admin/settings",
     icon: <SettingOutlined />,
   },

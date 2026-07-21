@@ -470,36 +470,6 @@ export function useSavePlatformSettings() {
   });
 }
 
-// ─── Homepage layout (admin) ─────────────────────────────────────────────────
-
-export function useAdminHomepageLayout() {
-  return useQuery({
-    queryKey: [...CMS_QUERY_KEY, "homepage"],
-    queryFn: () =>
-      fetchApiJson<import("@/lib/mock/phase8").HomepageSectionConfig[]>(
-        "admin/cms/homepage",
-      ),
-  });
-}
-
-export function useSaveHomepageLayout() {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (sections: import("@/lib/mock/phase8").HomepageSectionConfig[]) =>
-      fetchApiJson<import("@/lib/mock/phase8").HomepageSectionConfig[]>(
-        "admin/cms/homepage",
-        {
-          method: "PUT",
-          body: JSON.stringify({ sections }),
-        },
-      ),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: [...CMS_QUERY_KEY, "homepage"] });
-      qc.invalidateQueries({ queryKey: ["phase8", "homepage-layout"] });
-    },
-  });
-}
-
 // ─── Dashboard stats ─────────────────────────────────────────────────────────
 
 export function useCmsDashboardStats() {
@@ -549,23 +519,6 @@ export function useCmsDashboardStats() {
       .sort((a, b) => new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime())
       .slice(0, 5),
   };
-}
-
-export function useCmsReports() {
-  return useQuery({
-    queryKey: [...CMS_QUERY_KEY, "reports"],
-    queryFn: () =>
-      fetchApiJson<{
-        mostViewedSession: { title: string; viewCount: number };
-        mostPopularSeries: { title: string; viewCount: number };
-        topCompetency: { name: string; sessionCount: number };
-        topSpeaker: { name: string; sessionCount: number };
-        monthlyUploads: number;
-        downloads: number;
-        watchHours: number;
-        activeUsers: number;
-      }>("admin/reports"),
-  });
 }
 
 export { slugify };

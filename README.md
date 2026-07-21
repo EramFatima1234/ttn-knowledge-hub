@@ -63,8 +63,8 @@ flowchart LR
 - Knowledge meets (recorded) and knowledge series with episodes
 - Comments, Q&A, bookmarks, library, progress summary
 - Team studio, upload, series slot workflow
-- Admin approvals, analytics, announcements, user roles
-- Admin CMS (meets, series, speakers, competencies, resources, homepage metadata)
+- Admin approvals, announcements, user roles, and basic settings
+- Admin CMS (meets, series, speakers, competencies, resources)
 - KnowledgeHub AI (discover, video summary, quiz) when configured
 
 Full inventory: [`docs/project-build-summary.md`](docs/project-build-summary.md).

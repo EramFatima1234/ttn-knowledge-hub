@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  AdminAnalytics,
   ExploreHub,
   RecommendationsFeed,
   RelatedContent,
@@ -28,13 +27,5 @@ export function useRelatedContent(contentType: ContentType, id: string) {
     queryFn: () =>
       fetchApiJson<RelatedContent>(`feed/related/${contentType}/${id}`),
     enabled: Boolean(id),
-  });
-}
-
-export function useAdminAnalytics(days = 30) {
-  return useQuery({
-    queryKey: ["admin", "analytics", days],
-    queryFn: () =>
-      fetchApiJson<AdminAnalytics>(`admin/analytics?days=${days}`),
   });
 }

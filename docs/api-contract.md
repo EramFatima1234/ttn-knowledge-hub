@@ -12,10 +12,6 @@
 |--------|-------|-------------|
 | GET | `/health` | `apps/api/src/health.controller.ts` |
 | GET | `/admin/overview` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/analytics` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/reports` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/search/analytics` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/feedback/recent` | `apps/api/src/modules/admin/admin.controller.ts` |
 | POST | `/admin/search/reindex` | `apps/api/src/modules/admin/admin.controller.ts` |
 | GET | `/admin/approvals/pending` | `apps/api/src/modules/admin/admin.controller.ts` |
 | POST | `/admin/approvals/:id/approve` | `apps/api/src/modules/admin/admin.controller.ts` |

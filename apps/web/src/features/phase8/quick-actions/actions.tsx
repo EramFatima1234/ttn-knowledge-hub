@@ -1,7 +1,5 @@
 import {
-  BarChartOutlined,
   CalendarOutlined,
-  NotificationOutlined,
   PlaySquareOutlined,
   TagsOutlined,
   TeamOutlined,
@@ -56,13 +54,6 @@ export const teamQuickActions: QuickAction[] = [
     href: "/series",
     icon: <PlaySquareOutlined />,
   },
-  {
-    id: "reports",
-    title: "View Reports",
-    description: "Track upload performance",
-    href: "/admin/analytics",
-    icon: <BarChartOutlined />,
-  },
 ];
 
 export const adminQuickActions: QuickAction[] = [
@@ -77,7 +68,7 @@ export const adminQuickActions: QuickAction[] = [
     id: "competency",
     title: "Add Competency",
     description: "Organize learning taxonomy",
-    href: "/explore",
+    href: "/admin/catalog?tab=competencies",
     icon: <TagsOutlined />,
   },
   {
@@ -86,26 +77,5 @@ export const adminQuickActions: QuickAction[] = [
     description: "Manage speaker profiles",
     href: "/admin/catalog?tab=speakers",
     icon: <UserOutlined />,
-  },
-  {
-    id: "announcements",
-    title: "Announcements",
-    description: "Broadcast platform updates",
-    href: "/admin/announcements",
-    icon: <NotificationOutlined />,
-  },
-  {
-    id: "reports",
-    title: "View Reports",
-    description: "Platform insights and trends",
-    href: "/admin/reports",
-    icon: <BarChartOutlined />,
-  },
-  {
-    id: "homepage",
-    title: "Homepage Builder",
-    description: "Curate featured content",
-    href: "/admin/homepage-builder",
-    icon: <BarChartOutlined />,
   },
 ];

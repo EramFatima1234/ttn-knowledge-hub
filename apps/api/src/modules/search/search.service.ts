@@ -83,14 +83,4 @@ export class SearchService {
   trending() {
     return this.searchAnalytics.trending().then((data) => ({ data }));
   }
-
-  searchAnalyticsDashboard() {
-    return Promise.all([
-      this.searchAnalytics.popular(10),
-      this.searchAnalytics.trending(10),
-      this.searchAnalytics.noResults(10),
-    ]).then(([popular, trending, noResults]) => ({
-      data: { popular, trending, noResults },
-    }));
-  }
 }

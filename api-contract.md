@@ -73,10 +73,6 @@ CRUD for meets, series, episodes, speakers, competencies, resources; `PUT /admin
 |--------|-------|-------------|
 | GET | `/health` | `apps/api/src/health.controller.ts` |
 | GET | `/admin/overview` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/analytics` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/reports` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/search/analytics` | `apps/api/src/modules/admin/admin.controller.ts` |
-| GET | `/admin/feedback/recent` | `apps/api/src/modules/admin/admin.controller.ts` |
 | POST | `/admin/search/reindex` | `apps/api/src/modules/admin/admin.controller.ts` |
 | GET | `/admin/approvals/pending` | `apps/api/src/modules/admin/admin.controller.ts` |
 | POST | `/admin/approvals/:id/approve` | `apps/api/src/modules/admin/admin.controller.ts` |
@@ -152,10 +148,6 @@ CRUD for meets, series, episodes, speakers, competencies, resources; `PUT /admin
 | GET | `/knowledge-meets/:id` | `apps/api/src/modules/knowledge-meets/meets.controller.ts` |
 | GET | `/knowledge-series` | `apps/api/src/modules/knowledge-series/series.controller.ts` |
 | GET | `/knowledge-series/:id` | `apps/api/src/modules/knowledge-series/series.controller.ts` |
-| GET | `/notifications` | `apps/api/src/modules/notifications/notifications.controller.ts` |
-| GET | `/notifications/unread-count` | `apps/api/src/modules/notifications/notifications.controller.ts` |
-| PATCH | `/notifications/:id/read` | `apps/api/src/modules/notifications/notifications.controller.ts` |
-| POST | `/notifications/read-all` | `apps/api/src/modules/notifications/notifications.controller.ts` |
 | GET | `/progress/summary` | `apps/api/src/modules/progress/progress.controller.ts` |
 | GET | `/progress/weekly-activity` | `apps/api/src/modules/progress/progress.controller.ts` |
 | GET | `/progress/playback-preferences` | `apps/api/src/modules/progress/progress.controller.ts` |

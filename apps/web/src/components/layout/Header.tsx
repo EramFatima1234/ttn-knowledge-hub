@@ -9,7 +9,6 @@ import {
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
 import { logoutSession } from "@/lib/auth-api";
-import NotificationBell from "@/components/layout/NotificationBell";
 import HeaderSearch from "@/components/search/HeaderSearch";
 import RightPanelToggle from "@/components/layout/RightPanelToggle";
 
@@ -65,7 +64,6 @@ export default function Header() {
 
       <div className="header-actions">
         <RightPanelToggle />
-        <NotificationBell />
         <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
           <button type="button" className="header-profile" aria-label="Open profile menu">
             <Avatar
