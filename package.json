@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "pnpm db:generate && pnpm --filter @knowledgehub/types build && pnpm --parallel --filter @knowledgehub/api --filter @knowledgehub/web dev",
+    "dev:all": "turbo dev",
+    "dev:api": "pnpm --filter @knowledgehub/api dev",
+    "dev:web": "pnpm --filter @knowledgehub/web dev",
     "build": "pnpm db:generate && turbo build",
     "lint": "turbo lint",
     "db:generate": "pnpm --filter @knowledgehub/api db:generate",

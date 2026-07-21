@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { RoleName } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
@@ -50,7 +50,9 @@ export class UsersRepository {
     });
 
     if (!userRole) {
-      throw new Error('Default USER role not found. Run database seed.');
+      throw new ServiceUnavailableException(
+        'Default USER role not found. Run: pnpm db:seed',
+      );
     }
 
     return this.prisma.user.create({
