@@ -2023,15 +2023,43 @@
   border: 1px solid #eff0f5;
   box-shadow: 0 8px 24px rgba(46, 28, 65, 0.06);
 
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+  }
+
   &__search {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex: 1 1 280px;
+    min-width: 0;
 
     .ant-input-affix-wrapper {
       flex: 1;
       border-radius: 999px;
       padding: 8px 16px;
+      min-width: 0;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex: 1 1 320px;
+  }
+
+  &__select {
+    min-width: 140px;
+
+    &--competency {
+      min-width: 200px;
+      max-width: 280px;
     }
   }
 
@@ -2051,34 +2079,6 @@
     }
   }
 
-  &__row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-
-    &--chips {
-      align-items: flex-start;
-    }
-  }
-
-  &__label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: $grey_text_color;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    min-width: 88px;
-  }
-
-  &__chips {
-    display: flex;
-    flex: 1;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-width: 0;
-  }
-
   &__clear {
     border: none;
     background: transparent;
@@ -2086,6 +2086,7 @@
     font-weight: 600;
     cursor: pointer;
     padding: 4px 8px;
+    white-space: nowrap;
 
     &:hover {
       text-decoration: underline;

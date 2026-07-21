@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Input, Segmented, Select, Skeleton } from "antd";
+import { Input, Select, Skeleton } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useExploreHub } from "@/hooks/useRecommendations";
 import { useMeets, useSeriesList, useVideos } from "@/hooks/useContent";
@@ -115,71 +115,70 @@ export default function ExplorePageContent() {
       </div>
 
       <section className="kh-explore-filters">
-        <div className="kh-explore-filters__search">
-          <Input
-            size="large"
-            allowClear
-            prefix={<SearchOutlined />}
-            placeholder="Search within explore..."
-            value={searchInput}
-            onChange={(event) => setSearchInput(event.target.value)}
-            onPressEnter={() => runSearch()}
-          />
-          <button type="button" className="kh-explore-filters__search-btn" onClick={() => runSearch()}>
-            Search
-          </button>
-        </div>
-
-        <div className="kh-explore-filters__row">
-          <span className="kh-explore-filters__label">Content</span>
-          <Segmented
-            value={contentType}
-            onChange={(value) => updateParams({ type: value === "all" ? null : String(value) })}
-            options={[
-              { label: "All", value: "all" },
-              { label: "Videos", value: "videos" },
-              { label: "Series", value: "series" },
-              { label: "Meets", value: "meets" },
-            ]}
-          />
-          <Select
-            value={sort}
-            onChange={(value) => updateParams({ sort: value === "popular" ? null : value })}
-            style={{ minWidth: 150 }}
-            options={[
-              { label: "Most popular", value: "popular" },
-              { label: "Latest", value: "latest" },
-            ]}
-          />
-          {hasActiveFilters && (
-            <button type="button" className="kh-explore-filters__clear" onClick={clearFilters}>
-              Clear filters
+        <div className="kh-explore-filters__toolbar">
+          <div className="kh-explore-filters__search">
+            <Input
+              size="large"
+              allowClear
+              prefix={<SearchOutlined />}
+              placeholder="Search within explore..."
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              onPressEnter={() => runSearch()}
+            />
+            <button type="button" className="kh-explore-filters__search-btn" onClick={() => runSearch()}>
+              Search
             </button>
-          )}
-        </div>
+          </div>
 
-        <div className="kh-explore-filters__row kh-explore-filters__row--chips">
-          <span className="kh-explore-filters__label">Competency</span>
-          <div className="kh-explore-filters__chips">
-            <button
-              type="button"
-              className={`kh-explore-chip${!competencySlug ? " kh-explore-chip--active" : ""}`}
-              onClick={() => updateParams({ competency: null })}
-            >
-              All
-            </button>
-            {hub.competencies.map((competency) => (
-              <button
-                key={competency.id}
-                type="button"
-                className={`kh-explore-chip${competencySlug === competency.slug ? " kh-explore-chip--active" : ""}`}
-                onClick={() => updateParams({ competency: competency.slug })}
-              >
-                <span>{competency.icon ?? "📚"}</span>
-                {competency.name}
-                <small>{competency.videoCount + competency.seriesCount + competency.meetCount}</small>
+          <div className="kh-explore-filters__controls">
+            <Select
+              value={contentType}
+              onChange={(value) =>
+                updateParams({ type: value === "all" ? null : String(value) })
+              }
+              className="kh-explore-filters__select"
+              popupMatchSelectWidth={false}
+              options={[
+                { label: "All content", value: "all" },
+                { label: "Videos", value: "videos" },
+                { label: "Series", value: "series" },
+                { label: "Meets", value: "meets" },
+              ]}
+            />
+            <Select
+              allowClear
+              showSearch
+              placeholder="All competencies"
+              value={competencySlug ?? undefined}
+              onChange={(slug) => updateParams({ competency: slug ?? null })}
+              optionFilterProp="label"
+              className="kh-explore-filters__select kh-explore-filters__select--competency"
+              popupMatchSelectWidth={false}
+              options={hub.competencies.map((competency) => {
+                const count =
+                  competency.videoCount + competency.seriesCount + competency.meetCount;
+                return {
+                  value: competency.slug,
+                  label: `${competency.icon ?? "📚"} ${competency.name} (${count})`,
+                };
+              })}
+            />
+            <Select
+              value={sort}
+              onChange={(value) => updateParams({ sort: value === "popular" ? null : value })}
+              className="kh-explore-filters__select"
+              popupMatchSelectWidth={false}
+              options={[
+                { label: "Most popular", value: "popular" },
+                { label: "Latest", value: "latest" },
+              ]}
+            />
+            {hasActiveFilters && (
+              <button type="button" className="kh-explore-filters__clear" onClick={clearFilters}>
+                Clear
               </button>
-            ))}
+            )}
           </div>
         </div>
       </section>
