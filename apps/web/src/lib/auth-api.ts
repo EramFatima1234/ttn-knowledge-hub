@@ -28,6 +28,15 @@ export async function loginWithGoogle(
   });
 
   if (!response.ok) {
+    const contentType = response.headers.get("content-type") ?? "";
+    if (
+      response.status >= 500 &&
+      !contentType.includes("application/json")
+    ) {
+      throw new Error(
+        "Cannot reach the KnowledgeHub API. Start PostgreSQL, then run the API on port 3001 (e.g. cd apps/api && npm run dev, or bash scripts/dev-restart.sh).",
+      );
+    }
     const message = await parseError(response);
     if (response.status === 403 && message.includes("TO THE NEW")) {
       throw new Error(DOMAIN_RESTRICTION_MESSAGE);

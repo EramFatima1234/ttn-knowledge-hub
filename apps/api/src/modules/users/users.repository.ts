@@ -110,7 +110,9 @@ export class UsersRepository {
     });
 
     if (!role) {
-      throw new Error(`Role ${roleName} not found`);
+      throw new ServiceUnavailableException(
+        `Role ${roleName} not found. Run: pnpm db:seed`,
+      );
     }
 
     return this.prisma.userRole.upsert({
