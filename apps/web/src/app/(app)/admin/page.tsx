@@ -1,7 +1,5 @@
-"use client";
+import { redirect } from "next/navigation";
 
-import CmsDashboard from "@/features/admin-cms/dashboard/CmsDashboard";
-
-export default function AdminOverviewPage() {
-  return <CmsDashboard />;
+export default function AdminIndexPage() {
+  redirect("/admin/content?tab=meets");
 }

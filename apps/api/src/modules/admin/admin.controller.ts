@@ -31,13 +31,6 @@ export class AdminController {
     private readonly searchIndexService: SearchIndexService,
   ) {}
 
-  @Get('overview')
-  @Permissions('analytics:view')
-  @ApiOperation({ summary: 'Admin analytics overview' })
-  overview() {
-    return this.adminService.overview();
-  }
-
   @Post('search/reindex')
   @Permissions('analytics:view')
   @ApiOperation({ summary: 'Reindex searchable content into Elasticsearch' })

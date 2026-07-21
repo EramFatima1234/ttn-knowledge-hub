@@ -2,14 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RoleName } from "@knowledgehub/types";
 import { fetchApi, fetchApiJson, fetchApiVoid } from "@/lib/api";
 
-export interface AdminOverview {
-  users: number;
-  videos: number;
-  knowledgeMeets: number;
-  knowledgeSeries: number;
-  pendingApprovals: number;
-}
-
 export interface PendingApproval {
   id: string;
   title: string;
@@ -48,13 +40,6 @@ export interface AdminUser {
   name: string;
   avatarUrl: string | null;
   roles: string[];
-}
-
-export function useAdminOverview() {
-  return useQuery({
-    queryKey: ["admin", "overview"],
-    queryFn: () => fetchApiJson<AdminOverview>("admin/overview"),
-  });
 }
 
 export function usePendingApprovals() {

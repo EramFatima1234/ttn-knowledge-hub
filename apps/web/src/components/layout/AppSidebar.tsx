@@ -4,13 +4,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Layout, Menu } from "antd";
 import {
   AppstoreOutlined,
-  BookOutlined,
   CalendarOutlined,
   CompassOutlined,
-  DashboardOutlined,
   HomeOutlined,
   PlaySquareOutlined,
-  SettingOutlined,
   TagsOutlined,
   TeamOutlined,
   UserOutlined,
@@ -22,8 +19,6 @@ import type { MenuProps } from "antd";
 const { Sider } = Layout;
 
 function resolveAdminSelectedKey(pathname: string, tab: string | null): string {
-  if (pathname === "/admin") return "/admin";
-
   if (
     pathname.startsWith("/admin/content") ||
     pathname.startsWith("/admin/meets") ||
@@ -55,8 +50,6 @@ function resolveAdminSelectedKey(pathname: string, tab: string | null): string {
     if (tab === "approvals") return "/admin/platform?tab=approvals";
     return "/admin/platform?tab=users";
   }
-
-  if (pathname.startsWith("/admin/settings")) return "/admin/settings";
 
   return pathname;
 }
@@ -93,7 +86,6 @@ function AdminSidebarMenu({
         icon: <AppstoreOutlined />,
         label: "Admin",
         children: [
-          { key: "/admin", icon: <DashboardOutlined />, label: "Dashboard" },
           {
             key: "/admin/content?tab=meets",
             icon: <PlaySquareOutlined />,
@@ -109,7 +101,6 @@ function AdminSidebarMenu({
             icon: <TeamOutlined />,
             label: "Platform",
           },
-          { key: "/admin/settings", icon: <SettingOutlined />, label: "Settings" },
         ],
       },
     ],
@@ -146,7 +137,6 @@ export default function AppSidebar() {
     { key: "/explore", icon: <CompassOutlined />, label: "Explore" },
     { key: "/meets", icon: <CalendarOutlined />, label: "Meets" },
     { key: "/series", icon: <PlaySquareOutlined />, label: "Series" },
-    { key: "/library", icon: <BookOutlined />, label: "Library" },
     { key: "/speakers", icon: <UserOutlined />, label: "Speakers" },
   ];
 

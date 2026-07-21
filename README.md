@@ -61,13 +61,14 @@ flowchart LR
 - Home feed, explore, search, recommendations
 - Video playback with resume, mini player, continue watching
 - Knowledge meets (recorded) and knowledge series with episodes
-- Comments, Q&A, bookmarks, library, progress summary
+- Comments, Q&A, bookmarks (watch page & sidebar), progress summary
 - Team studio, upload, series slot workflow
 - Admin approvals, announcements, user roles, and basic settings
 - Admin CMS (meets, series, speakers, competencies, resources)
 - KnowledgeHub AI (discover, video summary, quiz) when configured
 
-Full inventory: [`docs/project-build-summary.md`](docs/project-build-summary.md).
+Full inventory: [`docs/project-build-summary.md`](docs/project-build-summary.md).  
+**MVP scope (post-trim):** [`MVP_CLEANUP_REPORT.md`](MVP_CLEANUP_REPORT.md).
 
 ---
 

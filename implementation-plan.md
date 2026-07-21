@@ -13,9 +13,9 @@ Deliver and document an internal learning platform in a pnpm monorepo: **Next.js
 | 3 | Knowledge meets / series | `knowledge-meets`, `knowledge-series`, admin CMS | Done |
 | 4 | Engagement (bookmark, history, comments) | `modules/engagement` | Done |
 | 5 | Search + explore | `modules/search`, `features/explore` | Done |
-| 6 | Admin approvals + analytics | `modules/admin` | Done |
+| 6 | Admin approvals + dashboard overview | `modules/admin` | Done |
 | 7 | Content Manager | `modules/admin-cms`, `features/admin-cms` | Done |
-| 8 | Progress / Learning Journey | `modules/progress`, `/library` | Done |
+| 8 | Progress / Learning Journey | `modules/progress`, home continue watching | Done |
 | 9 | KnowledgeHub AI | `modules/ai`, `features/ai` | Done |
 | 10 | Assessment documentation | Root `*.md`, `ai-prompts/` | In progress |
 

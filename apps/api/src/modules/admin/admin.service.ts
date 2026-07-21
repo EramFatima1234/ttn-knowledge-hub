@@ -9,22 +9,6 @@ import {
 export class AdminService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async overview() {
-    const [users, videos, meets, series, pending] = await Promise.all([
-      this.prisma.user.count({ where: { deletedAt: null } }),
-      this.prisma.video.count({ where: { deletedAt: null } }),
-      this.prisma.knowledgeMeet.count({ where: { deletedAt: null } }),
-      this.prisma.knowledgeSeries.count({ where: { deletedAt: null } }),
-      this.prisma.video.count({
-        where: { status: 'PENDING_APPROVAL', deletedAt: null },
-      }),
-    ]);
-
-    return {
-      data: { users, videos, knowledgeMeets: meets, knowledgeSeries: series, pendingApprovals: pending },
-    };
-  }
-
   async listAnnouncements() {
     const data = await this.prisma.announcement.findMany({
       orderBy: [{ priority: 'desc' }, { createdAt: 'desc' }],

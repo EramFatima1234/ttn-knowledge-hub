@@ -37,7 +37,7 @@ KnowledgeHub: a production-shaped internal learning platform — Google OAuth, R
 
 - Nest integration tests for auth and CMS.
 - CI Playwright with test Google account or mocked auth layer.
-- Split admin CMS service; complete homepage builder ↔ DB API alignment.
+- Split admin CMS service; optional curated homepage admin UI if product needs it again.
 - Implement or drop dormant Prisma models (`Like`, `LearningPath`).
 
 ## Reusable Workflow

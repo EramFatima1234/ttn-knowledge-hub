@@ -30,8 +30,8 @@ Employees need one place to watch recorded **Knowledge Meets**, follow **Knowled
 ### Admin
 - FR-30: Content Manager — meets, series/episodes, speakers, competencies, resources.
 - FR-31: Video approval workflow.
-- FR-32: Homepage sections and platform settings (JSON).
-- FR-33: User role assignment, analytics, announcements.
+- FR-32: Basic platform settings (banner, theme defaults).
+- FR-33: User role assignment and announcements.
 
 ## Non Functional Requirements
 
@@ -52,7 +52,7 @@ Employees need one place to watch recorded **Knowledge Meets**, follow **Knowled
 
 - **Learning Paths:** Prisma models may exist; no `/learning-paths` routes in current `src/`.
 - **Meets:** Recorded library focus; live-event reminders de-emphasized in product.
-- **Homepage builder:** Partial alignment with `HomepageSection` API (technical debt ADR-010).
+- **Homepage sections:** Learner layout uses `GET /homepage/layout` and feed APIs; admin section builder UI removed from MVP (API `GET/PUT /admin/cms/homepage` remains for seed/ops).
 
 ## Edge Cases
 

@@ -13,8 +13,8 @@ test.describe("Public navigation shell", () => {
     await expect(page).toHaveURL(/\/login/);
   });
 
-  test("library route requires authentication", async ({ page }) => {
-    await page.goto("/library");
+  test("meets route requires authentication", async ({ page }) => {
+    await page.goto("/meets");
 
     await expect(page).toHaveURL(/\/login/);
   });

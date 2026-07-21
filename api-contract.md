@@ -47,7 +47,7 @@ Regenerate index: `python3 scripts/generate-api-contract.py` (also updates `docs
 
 ## Content Manager (`/admin/cms`)
 
-CRUD for meets, series, episodes, speakers, competencies, resources; `PUT /admin/cms/homepage`; `PATCH /admin/cms/settings`. Requires **ADMIN** (and permissions per route).
+CRUD for meets, series, episodes, speakers, competencies, resources; `PUT /admin/cms/homepage`. Requires **ADMIN** (and permissions per route).
 
 ---
 
@@ -72,7 +72,6 @@ CRUD for meets, series, episodes, speakers, competencies, resources; `PUT /admin
 | Method | Route | Module file |
 |--------|-------|-------------|
 | GET | `/health` | `apps/api/src/health.controller.ts` |
-| GET | `/admin/overview` | `apps/api/src/modules/admin/admin.controller.ts` |
 | POST | `/admin/search/reindex` | `apps/api/src/modules/admin/admin.controller.ts` |
 | GET | `/admin/approvals/pending` | `apps/api/src/modules/admin/admin.controller.ts` |
 | POST | `/admin/approvals/:id/approve` | `apps/api/src/modules/admin/admin.controller.ts` |
@@ -114,8 +113,6 @@ CRUD for meets, series, episodes, speakers, competencies, resources; `PUT /admin
 | DELETE | `/admin/cms/competencies/:id` | `apps/api/src/modules/admin-cms/admin-cms.controller.ts` |
 | GET | `/admin/cms/homepage` | `apps/api/src/modules/admin-cms/admin-cms.controller.ts` |
 | PUT | `/admin/cms/homepage` | `apps/api/src/modules/admin-cms/admin-cms.controller.ts` |
-| GET | `/admin/cms/settings` | `apps/api/src/modules/admin-cms/admin-cms.controller.ts` |
-| PATCH | `/admin/cms/settings` | `apps/api/src/modules/admin-cms/admin-cms.controller.ts` |
 | GET | `/homepage/layout` | `apps/api/src/modules/admin-cms/platform.controller.ts` |
 | GET | `/platform/settings` | `apps/api/src/modules/admin-cms/platform.controller.ts` |
 | GET | `/team/meets` | `apps/api/src/modules/admin-cms/team-meets.controller.ts` |

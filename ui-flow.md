@@ -15,7 +15,7 @@ Video                 (/watch/[id])
   ↓
 Bookmark              (bookmark control → POST /bookmarks)
   ↓
-Learning Journey      (/library, continue watching, progress summary)
+Learning Journey      (home continue watching, progress summary, right sidebar)
   ↓
 KnowledgeHub AI       (FAB / drawer → /ai/* when configured)
 ```
@@ -38,11 +38,9 @@ Knowledge Series      (/admin/series/*, episodes)
 Resources             (/admin/resources/*)
   ↓
 Publish               (approvals / CMS status, recording URL)
-  ↓
-Homepage              (/admin/homepage-builder, PUT /admin/cms/homepage)
 ```
 
-Also: **Users** (`/admin/users`), **Analytics** (`/admin/analytics`), **Platform** (`/admin/platform`).
+Also: **Users & approvals** (`/admin/platform`, redirects from `/admin/users`, `/admin/approvals`). Visiting `/admin` redirects to **Content**.
 
 ## Team flow
 
@@ -53,7 +51,7 @@ Also: **Users** (`/admin/users`), **Analytics** (`/admin/analytics`), **Platform
 | Area | Paths |
 |------|--------|
 | Auth | `/login` |
-| Learner | `/`, `/explore`, `/search`, `/watch/[id]`, `/meets`, `/series`, `/library`, `/speakers` |
+| Learner | `/`, `/explore`, `/search`, `/watch/[id]`, `/meets`, `/series`, `/speakers` |
 | Team | `/team/upload`, `/team/studio`, `/team/series-upload`, `/team/meet-upload` |
 | Admin | `/admin/*` |
 

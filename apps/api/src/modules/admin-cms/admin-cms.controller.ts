@@ -26,7 +26,6 @@ import {
 } from './dto/series.dto';
 import { CreateSpeakerDto, UpdateSpeakerDto } from './dto/speaker.dto';
 import { UpdateHomepageLayoutDto } from './dto/homepage.dto';
-import { UpdatePlatformSettingsDto } from './dto/platform-settings.dto';
 import { UploadMeetRecordingDto } from './dto/team-meet.dto';
 
 @ApiTags('Admin CMS')
@@ -228,18 +227,5 @@ export class AdminCmsController {
   @ApiOperation({ summary: 'Update homepage section layout' })
   updateHomepageLayout(@Body() dto: UpdateHomepageLayoutDto) {
     return this.adminCmsService.updateHomepageLayout(dto);
-  }
-
-  // Platform settings
-  @Get('settings')
-  @ApiOperation({ summary: 'Get platform settings' })
-  getPlatformSettings() {
-    return this.adminCmsService.getPlatformSettings();
-  }
-
-  @Patch('settings')
-  @ApiOperation({ summary: 'Update platform settings' })
-  updatePlatformSettings(@Body() dto: UpdatePlatformSettingsDto) {
-    return this.adminCmsService.updatePlatformSettings(dto);
   }
 }

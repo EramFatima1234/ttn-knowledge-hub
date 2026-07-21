@@ -12,7 +12,7 @@ Testable criteria aligned with Playwright specs (`apps/web/e2e/`) and manual smo
 - [ ] Home loads dashboard feed without console errors.
 - [ ] `/watch/[id]` plays published video and records history on progress.
 - [ ] Search returns results for seeded content query.
-- [ ] Bookmark appears on `/library`.
+- [ ] Bookmark appears on watch page or right sidebar after toggling.
 
 ## Team
 - [ ] TEAM user can open `/team/studio` and save draft.
@@ -24,7 +24,6 @@ Testable criteria aligned with Playwright specs (`apps/web/e2e/`) and manual smo
 
 ## API contract
 - [ ] Authenticated `GET /auth/me` returns user with roles.
-- [ ] `GET /notifications/unread-count` works; list loads on bell open.
 
 ## Regression guards
 - [ ] No `/learning-paths` route in web `src/` (product removed).

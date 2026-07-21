@@ -2,7 +2,6 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchApi, fetchApiJson, fetchApiVoid } from "@/lib/api";
-import { useAdminOverview } from "@/hooks/useAdmin";
 import type {
   AdminCompetencyRecord,
   AdminEpisodeRecord,
@@ -11,7 +10,6 @@ import type {
   AdminSeriesRecord,
   AdminSpeakerRecord,
   CmsPublishStatus,
-  PlatformSettings,
 } from "@/features/admin-cms/types";
 import {
   slugify,
@@ -436,89 +434,6 @@ export function useDeleteCompetency() {
       qc.invalidateQueries({ queryKey: ["competencies"] });
     },
   });
-}
-
-// ─── Settings ────────────────────────────────────────────────────────────────
-
-export function usePlatformSettings() {
-  return useQuery({
-    queryKey: [...CMS_QUERY_KEY, "settings"],
-    queryFn: () => fetchApiJson<PlatformSettings>("admin/cms/settings"),
-  });
-}
-
-export function usePublicPlatformSettings() {
-  return useQuery({
-    queryKey: ["platform", "settings"],
-    queryFn: () => fetchApiJson<PlatformSettings>("platform/settings"),
-    staleTime: 5 * 60_000,
-  });
-}
-
-export function useSavePlatformSettings() {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (settings: PlatformSettings) =>
-      fetchApiJson<PlatformSettings>("admin/cms/settings", {
-        method: "PATCH",
-        body: JSON.stringify(settings),
-      }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: [...CMS_QUERY_KEY, "settings"] });
-      qc.invalidateQueries({ queryKey: ["platform", "settings"] });
-    },
-  });
-}
-
-// ─── Dashboard stats ─────────────────────────────────────────────────────────
-
-export function useCmsDashboardStats() {
-  const overview = useAdminOverview();
-  const meets = useAdminMeets();
-  const series = useAdminSeries();
-  const speakers = useAdminSpeakers();
-
-  const meetItems = meets.data ?? [];
-  const seriesItems = series.data ?? [];
-  const speakerItems = speakers.data ?? [];
-
-  const drafts =
-    meetItems.filter((m) => m.status === "DRAFT").length +
-    seriesItems.filter((s) => s.status === "DRAFT").length;
-
-  const pending =
-    meetItems.filter((m) => m.status === "PENDING").length +
-    seriesItems.filter((s) => s.status === "PENDING").length;
-
-  const publishedMeets = meetItems.filter((m) => m.status === "PUBLISHED").length;
-
-  return {
-    overview: overview.data,
-    isLoading: overview.isLoading || meets.isLoading || series.isLoading,
-    stats: {
-      users: overview.data?.users ?? 0,
-      meets: meetItems.length,
-      series: seriesItems.length,
-      speakers: speakerItems.length,
-      publishedMeets,
-      upcoming: publishedMeets,
-      publishedVideos: overview.data?.videos ?? 0,
-      drafts,
-      pending,
-    },
-    recentUploads: [
-      ...meetItems.slice(0, 3).map((m) => ({ id: m.id, title: m.title, type: "Meet", status: m.status })),
-      ...seriesItems.slice(0, 3).map((s) => ({ id: s.id, title: s.title, type: "Series", status: s.status })),
-    ].slice(0, 8),
-    latestMeets: meetItems
-      .filter((m) => m.status === "PUBLISHED")
-      .sort((a, b) => new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime())
-      .slice(0, 5),
-    upcomingMeets: meetItems
-      .filter((m) => m.status === "PUBLISHED")
-      .sort((a, b) => new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime())
-      .slice(0, 5),
-  };
 }
 
 export { slugify };

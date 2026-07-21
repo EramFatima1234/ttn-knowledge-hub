@@ -57,7 +57,7 @@ export default function HomeDashboard() {
           title={
             <>
               You are viewing the learning home as an admin.{" "}
-              <Link href="/admin">Open Admin CMS</Link>
+              <Link href="/admin/content?tab=meets">Open Admin CMS</Link>
             </>
           }
         />
