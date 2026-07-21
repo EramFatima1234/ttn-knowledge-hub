@@ -2,6 +2,9 @@
 
 Decision log for KnowledgeHub. Format: **context → decision → consequences**.
 
+> **Canonical ADRs (ADR-001–010):** [`../adr/`](../adr/) — Next.js, NestJS, PostgreSQL, React Query, Ant Design, URL media, Content Manager, Learning Journey, Gemini, Homepage metadata.  
+> **Index:** [`docs/README.md`](./README.md)
+
 ---
 
 ## ADR-001 — Monorepo with pnpm and Turbo

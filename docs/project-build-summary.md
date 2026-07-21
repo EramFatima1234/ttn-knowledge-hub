@@ -1,8 +1,9 @@
 # KnowledgeHub — Project Build Summary
 
 > Detailed analysis of everything built in the KnowledgeHub monorepo so far.  
-> **Repository:** `/home/eram/Documents/TTNP/Learning_TTN`  
-> **Last updated:** July 19, 2026
+> **Repository:** `ttn-knowledge-hub` (monorepo root)  
+> **Last updated:** July 19, 2026  
+> **Note:** §18 API table may list removed **learning-path** endpoints — authoritative list: [`api-contract.md`](./api-contract.md).
 
 ---
 

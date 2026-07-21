@@ -1,35 +1,119 @@
 # KnowledgeHub
 
-Internal engineering learning platform for **TO THE NEW** (`@tothenew.com`). Monorepo: **Next.js** frontend + **NestJS** API + **PostgreSQL**.
+[![Node](https://img.shields.io/badge/node-%3E%3D20-339933)](package.json)
+[![pnpm](https://img.shields.io/badge/pnpm-9.15.4-f69220)](package.json)
 
-For architecture, conventions, and agent context see [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md) and [`.cursor/rules/`](.cursor/rules/).
-
----
-
-## Prerequisites
-
-- **Node.js** ≥ 20
-- **pnpm** 9.15.4 (or `npx pnpm@9.15.4`)
-- **Docker** (PostgreSQL + optional Elasticsearch)
+**KnowledgeHub** is the internal engineering learning platform for **TO THE NEW** (`@tothenew.com`). Employees discover and watch knowledge meets, series, and videos; track progress; search the catalog; and use an in-app AI assistant. Contributors and admins publish content through studio workflows and a full **Content Manager** (admin CMS).
 
 ---
 
-## Quick start
+## Project overview
+
+| | |
+|---|---|
+| **Problem** | Fragmented engineering knowledge across recordings and drives |
+| **Solution** | Central hub with RBAC, approvals, search, and Gemini-assisted discovery |
+| **Users** | Learners (`USER`), contributors (`TEAM`), platform admins (`ADMIN`) |
+
+Detailed context: [`docs/project-overview.md`](docs/project-overview.md).
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+  Web[Next.js apps/web :3000]
+  API[NestJS apps/api :3001]
+  DB[(PostgreSQL)]
+  Web -->|/api rewrite + JWT| API
+  API --> DB
+```
+
+- **Monorepo:** pnpm workspaces + Turbo
+- **Flows:** [`architecture/`](architecture/) (auth, CMS, feeds, AI, media)
+- **Decisions:** [`adr/`](adr/) (ADR-001–010)
+- **Deep dive:** [`docs/architecture.md`](docs/architecture.md)
+
+---
+
+## Tech stack
+
+| Layer | Technologies |
+|-------|----------------|
+| Web | Next.js 16, React 19, Ant Design 6, SCSS (Aspire), React Query, Zustand |
+| API | NestJS 11, Prisma 6, Passport JWT, class-validator |
+| Data | PostgreSQL 16; optional Elasticsearch 8 |
+| AI | Google Gemini (`AI_PROVIDER=gemini`) |
+| Infra | Docker Compose (Postgres + ES); S3/SMTP/Web Push via env adapters |
+
+---
+
+## Features
+
+- Google OAuth (domain-restricted) and JWT sessions
+- Home feed, explore, search, recommendations
+- Video playback with resume, mini player, continue watching
+- Knowledge meets (recorded) and knowledge series with episodes
+- Comments, Q&A, bookmarks, library, progress summary
+- Team studio, upload, series slot workflow
+- Admin approvals, analytics, announcements, user roles
+- Admin CMS (meets, series, speakers, competencies, resources, homepage metadata)
+- KnowledgeHub AI (discover, video summary, quiz) when configured
+
+Full inventory: [`docs/project-build-summary.md`](docs/project-build-summary.md).
+
+---
+
+## Screenshots
+
+_Add screenshots of home, watch, and admin CMS to `docs/assets/` when capturing from staging; paths can be linked here._
+
+---
+
+## Folder structure
+
+```
+ttn-knowledge-hub/
+├── apps/web/              # Next.js frontend
+├── apps/api/              # NestJS API + prisma/
+├── packages/types/        # Shared TypeScript contracts
+├── packages/tsconfig/
+├── docker/                # docker-compose.yml
+├── docs/                  # Engineering documentation (index: docs/README.md)
+├── architecture/          # Feature flow diagrams
+├── adr/                   # Architecture decision records
+├── roadmap/               # Status, backlog, releases
+├── onboarding/            # New developer guides
+├── ai/                    # AI module spec & prompts
+├── .cursor/               # Cursor knowledge base + rules/
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+└── PROJECT_HEALTH.md
+```
+
+---
+
+## Installation
+
+### Prerequisites
+
+- **Node.js** ≥ 20  
+- **pnpm** 9.15.4 (`npx pnpm@9.15.4`)  
+- **Docker** (PostgreSQL; optional Elasticsearch)
+
+### Quick start
 
 ```bash
-# 1. Infrastructure
 docker compose -f docker/docker-compose.yml up -d
 
-# 2. Environment (do not commit the copied files)
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env.local
+# Edit JWT secrets and GOOGLE_CLIENT_ID in both files
 
-# 3. Install & database
 npx pnpm@9.15.4 install
 npx pnpm@9.15.4 db:migrate
 npx pnpm@9.15.4 db:seed
-
-# 4. Run both apps (from repo root)
 npx pnpm@9.15.4 dev
 ```
 
@@ -37,9 +121,12 @@ npx pnpm@9.15.4 dev
 |---------|-----|
 | Web | http://localhost:3000 |
 | API | http://localhost:3001/api/v1 |
+| Swagger (dev) | http://localhost:3001/api/v1/docs |
 | Prisma Studio | `pnpm db:studio` |
 
-Sign in with Google using a `@tothenew.com` account. Assign **TEAM** or **ADMIN** via `/admin/users` (admin only).
+Sign in with Google (`@tothenew.com`). Assign **TEAM** or **ADMIN** at `/admin/users`.
+
+More detail: [`docs/setup-guide.md`](docs/setup-guide.md), [`onboarding/getting-started.md`](onboarding/getting-started.md).
 
 ---
 
@@ -47,143 +134,143 @@ Sign in with Google using a `@tothenew.com` account. Assign **TEAM** or **ADMIN*
 
 ### API (`apps/api/.env`)
 
-Copy from [`apps/api/.env.example`](apps/api/.env.example). Key variables:
+Copy from [`apps/api/.env.example`](apps/api/.env.example).
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes | PostgreSQL connection string |
-| `JWT_ACCESS_SECRET` | Yes | Access token signing (≥ 32 chars) |
-| `JWT_REFRESH_SECRET` | Yes | Refresh token signing (≥ 32 chars) |
-| `GOOGLE_CLIENT_ID` | Yes | Google OAuth client ID (server validation) |
+| `JWT_ACCESS_SECRET` | Yes | ≥ 32 characters |
+| `JWT_REFRESH_SECRET` | Yes | ≥ 32 characters |
+| `GOOGLE_CLIENT_ID` | Yes | OAuth client (server) |
 | `CORS_ORIGIN` | No | Default `http://localhost:3000` |
 | `ALLOWED_EMAIL_DOMAIN` | No | Default `tothenew.com` |
 | `STORAGE_PROVIDER` | No | `LOCAL` or `S3` |
 | `SEARCH_PROVIDER` | No | `postgres` or `elasticsearch` |
-| `ELASTICSEARCH_URL` | If ES | Default `http://localhost:9200` |
-| `MAIL_PROVIDER` | No | `console` or `smtp` |
-| `PUSH_PROVIDER` | No | `console` or `webpush` |
-| `AI_PROVIDER` | No | `gemini` (others not fully implemented) |
-| `GEMINI_API_KEY` | For AI | Gemini API key — see [`docs/gemini-setup.md`](docs/gemini-setup.md) |
-
-Local Postgres defaults match `docker/docker-compose.yml` (`knowledgehub` / `knowledgehub` on port 5432).
+| `GEMINI_API_KEY` | For AI | See [`docs/gemini-setup.md`](docs/gemini-setup.md) |
 
 ### Web (`apps/web/.env.local`)
 
-Copy from [`apps/web/.env.example`](apps/web/.env.example):
+Copy from [`apps/web/.env.example`](apps/web/.env.example).
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_API_URL` | API base, e.g. `http://localhost:3001/api/v1` |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Same OAuth client as API (browser) |
+| `NEXT_PUBLIC_API_URL` | e.g. `http://localhost:3001/api/v1` |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | OAuth client (browser) |
 | `NEXT_PUBLIC_ENVIRONMENT` | e.g. `dev` |
-| `NEXT_PUBLIC_ENCRYPTION_KEY` | 32-character client-side key (generate your own; do not use production values from examples in git) |
 
-Use **`apps/web/.env.local`**, not only a root `.env.local`, so `NEXT_PUBLIC_API_URL` is correct.
+Use **`apps/web/.env.local`** so the API URL is correct.
 
 ---
 
-## Scripts
+## Backend setup
 
-From repository root (`package.json`):
+```bash
+pnpm --filter @knowledgehub/api dev
+# Production
+cd apps/api && pnpm db:migrate:deploy && pnpm build && pnpm start:prod
+```
 
-| Command | Action |
-|---------|--------|
-| `pnpm dev` | Start web + API via Turbo |
-| `pnpm build` | `db:generate` + production build all packages |
-| `pnpm lint` | ESLint across workspace |
-| `pnpm db:generate` | Prisma client generate |
-| `pnpm db:migrate` | Prisma migrate dev (API) |
-| `pnpm db:seed` | Seed sample data |
-| `pnpm db:studio` | Prisma Studio |
+Module map: [`docs/backend-architecture.md`](docs/backend-architecture.md).  
+API index: [`docs/api-contract.md`](docs/api-contract.md).
 
-Per app:
+---
+
+## Frontend setup
 
 ```bash
 pnpm --filter @knowledgehub/web dev
-pnpm --filter @knowledgehub/api dev
 ```
 
-### Web-only
+Linux file watching: `cd apps/web && WATCHPACK_POLLING=true pnpm dev`  
+Build: `cd apps/web && npx next build --webpack` if default bundler TS issues occur.
+
+UI conventions: [`docs/frontend-architecture.md`](docs/frontend-architecture.md), [`.cursor/ui-guidelines.md`](.cursor/ui-guidelines.md).
+
+---
+
+## Database setup
 
 ```bash
+pnpm db:generate   # Prisma client
+pnpm db:migrate    # Dev migrations
+pnpm db:seed       # Sample data
+```
+
+Schema: [`apps/api/prisma/schema.prisma`](apps/api/prisma/schema.prisma).  
+Design doc: [`docs/database-design.md`](docs/database-design.md).
+
+---
+
+## Seed data
+
+`pnpm db:seed` loads roles, permissions, and sample content. **Login is always via Google OAuth** — seed does not create password users.
+
+---
+
+## Running tests
+
+```bash
+pnpm lint
+pnpm build
+
 cd apps/web
-pnpm build          # production Next.js build
-pnpm test:e2e       # Playwright (starts dev server unless PLAYWRIGHT_SKIP_WEB_SERVER=1)
+pnpm test:e2e    # Playwright
 ```
 
-On Linux, if file watching is unreliable:
-
-```bash
-cd apps/web && WATCHPACK_POLLING=true pnpm dev
-```
-
-If TypeScript fails on default bundler:
-
-```bash
-cd apps/web && npx next build --webpack
-```
-
-### API-only
-
-```bash
-cd apps/api
-pnpm db:migrate:deploy   # production migrations
-pnpm build && pnpm start:prod
-```
+Strategy: [`docs/testing-strategy.md`](docs/testing-strategy.md).
 
 ---
 
-## Project structure
+## Deployment
 
-```
-Learning_TTN/
-├── apps/web/           # Next.js 16 (port 3000)
-├── apps/api/           # NestJS 11 (port 3001)
-├── packages/types/     # Shared TypeScript types
-├── packages/tsconfig/
-├── docker/             # docker-compose.yml
-├── docs/               # AI_CONTEXT, decisions, roles, performance
-└── .cursor/rules/      # Cursor agent rules (*.mdc)
-```
+- **Web:** Next `standalone` — set `NEXT_PUBLIC_API_URL` to public API  
+- **API:** Node on `PORT` (3001), run `prisma migrate deploy`  
+- **Secrets:** Platform secret store only — never commit `.env`
+
+Guide: [`docs/deployment-guide.md`](docs/deployment-guide.md), [`onboarding/deployment.md`](onboarding/deployment.md).
 
 ---
 
-## Development workflow
+## Known issues
 
-1. Create a feature branch (`cursor/<topic>-<summary>` for agent work).
-2. Change API schema → migrate → update types package if needed.
-3. Run `pnpm lint` and `pnpm build` before opening a PR.
-4. Manual smoke: login, home feed, watch a video, one admin CMS path if applicable.
+| Issue | Notes |
+|-------|--------|
+| Client-heavy app shell | Full RSC migration deferred ([`docs/performance-report.md`](docs/performance-report.md)) |
+| Homepage builder | Partial localStorage vs DB sections (ADR-010) |
+| Learning paths | Removed from UI/API; Prisma models may remain |
+| Likes / ratings / speaker follow | Schema present; public API incomplete |
+| Stale lines in `project-build-summary.md` | Learning-path API rows — use [`docs/api-contract.md`](docs/api-contract.md) |
 
-**Roles:** [`docs/roles-and-permissions.md`](docs/roles-and-permissions.md)
-
----
-
-## Deployment notes
-
-- **Web:** Next `standalone` output (`apps/web/next.config.ts`). Set `NEXT_PUBLIC_API_URL` to the public API URL.
-- **API:** Node process on `PORT` (default 3001), `API_PREFIX=api/v1`. Run `prisma migrate deploy` on deploy.
-- **Database:** Managed PostgreSQL; point `DATABASE_URL`.
-- **Files:** Set `STORAGE_PROVIDER=S3` and AWS variables for production; configure `CORS_ORIGIN` to the web origin.
-- **Search:** Optional Elasticsearch (`SEARCH_PROVIDER=elasticsearch`).
-- **Mail / push:** Configure SMTP and VAPID keys for real delivery.
-
-Do not deploy committed `.env` files; inject secrets via your platform’s secret store.
+Health report: [`PROJECT_HEALTH.md`](PROJECT_HEALTH.md).
 
 ---
 
-## Documentation index
+## Roadmap
 
-| Document | Contents |
-|----------|----------|
-| [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md) | Stack, workflows, limitations |
-| [`docs/DECISIONS.md`](docs/DECISIONS.md) | ADR-style decision log |
-| [`docs/project-build-summary.md`](docs/project-build-summary.md) | Detailed feature inventory |
-| [`docs/performance-report.md`](docs/performance-report.md) | Performance audit |
-| [`docs/gemini-setup.md`](docs/gemini-setup.md) | AI configuration |
+- [`roadmap/current-status.md`](roadmap/current-status.md)  
+- [`roadmap/backlog.md`](roadmap/backlog.md)  
+- [`docs/future-roadmap.md`](docs/future-roadmap.md)
+
+---
+
+## Contributors
+
+Internal TO THE NEW engineering. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+---
+
+## Documentation
+
+| Resource | Path |
+|----------|------|
+| **Full index** | [`docs/README.md`](docs/README.md) |
+| Agent context | [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md), [`.cursor/project-context.md`](.cursor/project-context.md) |
+| RBAC | [`docs/roles-and-permissions.md`](docs/roles-and-permissions.md) |
+| Security | [`docs/security-guide.md`](docs/security-guide.md) |
+| Cursor rules | [`.cursor/rules/`](.cursor/rules/) |
 
 ---
 
 ## License
 
-Private — TO THE NEW internal use.
+Proprietary — TO THE NEW internal use. See [`LICENSE`](LICENSE).

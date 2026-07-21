@@ -1,0 +1,3 @@
+- Client-side LLM keys
+- OpenAI default adapter (not implemented)
+- AI on every page load

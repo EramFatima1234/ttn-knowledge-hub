@@ -1,0 +1,4 @@
+- Gemini as sole LLM provider (ADR-009)
+- Server-side only API key
+- Streaming discover endpoint
+- Lazy AI UI in app layout
