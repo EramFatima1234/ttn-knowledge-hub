@@ -68,7 +68,8 @@ flowchart LR
 - KnowledgeHub AI (discover, video summary, quiz) when configured
 
 Full inventory: [`docs/project-build-summary.md`](docs/project-build-summary.md).  
-**MVP scope (post-trim):** [`MVP_CLEANUP_REPORT.md`](MVP_CLEANUP_REPORT.md).
+**MVP scope (post-trim):** [`MVP_CLEANUP_REPORT.md`](MVP_CLEANUP_REPORT.md).  
+**Demo admin access (temporary):** [`docs/demo-admin-access.md`](docs/demo-admin-access.md).
 
 ---
 

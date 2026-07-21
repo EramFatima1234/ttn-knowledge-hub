@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RoleName } from '@prisma/client';
+import { DEMO_OPEN_ADMIN_ACCESS } from '../../config/demo-access';
 import { ROLES_KEY } from '../decorators/auth.decorators';
 import { AuthenticatedUser } from '../decorators/current-user.decorator';
 
@@ -25,6 +26,13 @@ export class RolesGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<{ user: AuthenticatedUser }>();
     const user = request.user;
+
+    // TODO(demo): Remove block when DEMO_OPEN_ADMIN_ACCESS is false (production RBAC).
+    if (DEMO_OPEN_ADMIN_ACCESS && user?.id) {
+      if (requiredRoles.includes(RoleName.ADMIN)) {
+        return true;
+      }
+    }
 
     if (!user?.roles?.length) {
       throw new ForbiddenException('Insufficient permissions');

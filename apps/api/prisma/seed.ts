@@ -125,7 +125,8 @@ async function main() {
   console.log('Seeding sample content...');
   await seedContent();
 
-  await ensureBootstrapAdmin('eram.fatima@tothenew.com');
+  // TODO(demo): Optional bootstrap admin when restoring production RBAC (see config/demo-access.ts).
+  // await ensureBootstrapAdmin('eram.fatima@tothenew.com');
 
   console.log('Seed completed.');
 }

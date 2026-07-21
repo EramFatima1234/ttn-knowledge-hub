@@ -13,7 +13,7 @@ import type {
 } from "@/features/admin-cms/types";
 import {
   slugify,
-} from "@/features/admin-cms/store/cms-store";
+} from "@/features/admin-cms/utils/slug.util";
 
 const CMS_QUERY_KEY = ["admin", "cms"];
 

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { AuthUser, RoleName } from "@knowledgehub/types";
 import { encryptData, decryptData } from "@/lib/encryption";
+import { demoAllowsAdminAccess } from "@/lib/demo-access";
 
 export interface UserSession extends AuthUser {
   accessToken: string;
@@ -41,11 +42,19 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, isAuthenticated: false }),
 
       hasRole: (role) => {
-        const { user } = get();
+        const { user, isAuthenticated } = get();
+        // TODO(demo): Restore strict role checks when DEMO_OPEN_ADMIN_ACCESS is false.
+        if (demoAllowsAdminAccess(isAuthenticated) && role === RoleName.ADMIN) {
+          return true;
+        }
         return user?.roles?.includes(role) ?? false;
       },
 
-      isAdmin: () => get().hasRole(RoleName.ADMIN),
+      isAdmin: () => {
+        const { isAuthenticated } = get();
+        if (demoAllowsAdminAccess(isAuthenticated)) return true;
+        return get().hasRole(RoleName.ADMIN);
+      },
 
       isTeam: () => {
         const state = get();

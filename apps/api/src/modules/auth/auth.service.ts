@@ -6,7 +6,6 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { OAuth2Client } from 'google-auth-library';
-import { RoleName } from '@prisma/client';
 import { DOMAIN_RESTRICTION_MESSAGE } from '@knowledgehub/types';
 import { UsersRepository } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
@@ -16,7 +15,11 @@ import { AuthenticatedUser } from '../../common/decorators/current-user.decorato
 @Injectable()
 export class AuthService {
   private readonly googleClient: OAuth2Client;
-  private readonly bootstrapAdminEmails = new Set(['eram.fatima@tothenew.com']);
+
+  /**
+   * Production bootstrap admin (restore when DEMO_OPEN_ADMIN_ACCESS is false):
+   * private readonly bootstrapAdminEmails = new Set(['eram.fatima@tothenew.com']);
+   */
 
   constructor(
     private readonly configService: ConfigService,
@@ -148,10 +151,13 @@ export class AuthService {
       user = await this.usersRepository.updateLogin(user.id);
     }
 
-    if (this.bootstrapAdminEmails.has(profile.email)) {
-      await this.usersRepository.assignRole(user.id, RoleName.ADMIN);
-      user = (await this.usersRepository.findById(user.id)) ?? user;
-    }
+    /*
+     * TODO(demo): Re-enable when DEMO_OPEN_ADMIN_ACCESS is false (see config/demo-access.ts).
+     * if (!DEMO_OPEN_ADMIN_ACCESS && this.bootstrapAdminEmails.has(profile.email)) {
+     *   await this.usersRepository.assignRole(user.id, RoleName.ADMIN);
+     *   user = (await this.usersRepository.findById(user.id)) ?? user;
+     * }
+     */
 
     return this.issueTokens(user);
   }

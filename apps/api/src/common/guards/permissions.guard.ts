@@ -5,6 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { DEMO_OPEN_ADMIN_ACCESS } from '../../config/demo-access';
 import { PERMISSIONS_KEY } from '../decorators/auth.decorators';
 import { AuthenticatedUser } from '../decorators/current-user.decorator';
 import { UsersRepository } from '../../modules/users/users.repository';
@@ -28,6 +29,11 @@ export class PermissionsGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<{ user: AuthenticatedUser }>();
     const user = request.user;
+
+    // TODO(demo): Remove when DEMO_OPEN_ADMIN_ACCESS is false (production RBAC).
+    if (DEMO_OPEN_ADMIN_ACCESS && user?.id) {
+      return true;
+    }
 
     const permissions = await this.usersRepository.getUserPermissionSlugs(
       user.id,

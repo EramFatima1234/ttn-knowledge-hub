@@ -1,6 +1,4 @@
 export { default as StatCard } from "./StatCard";
-export { default as ChartCard } from "./ChartCard";
-export { default as ActivityFeed } from "./ActivityFeed";
 export { default as ProgressCard } from "./ProgressCard";
 export { default as LatestMeetsCard } from "./LatestMeetsCard";
 export { default as QuickActionCard } from "./QuickActionCard";
