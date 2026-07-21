@@ -19,6 +19,12 @@ Detailed context: [`docs/project-overview.md`](docs/project-overview.md).
 
 ---
 
+## Business context
+
+TO THE NEW runs recurring **Knowledge Meets** and **Knowledge Series** to share engineering practices. Recordings, slides, and metadata were hard to discover and reuse. KnowledgeHub centralizes that catalog with Google sign-in for employees, role-based publishing (**TEAM** / **ADMIN**), learner engagement (bookmarks, comments, Q&A, watch history), **Learning Journey** progress, search, and optional **KnowledgeHub AI** (Gemini) for discovery and summaries. The product is an internal learning hub — not IT support or ticketing.
+
+---
+
 ## Architecture
 
 ```mermaid
@@ -87,6 +93,15 @@ ttn-knowledge-hub/
 ├── onboarding/            # New developer guides
 ├── ai/                    # AI module spec & prompts
 ├── .cursor/               # Cursor knowledge base + rules/
+├── database/              # Assessment DB docs (setup, migrations, seed pointers)
+├── ai-prompts/            # Prompt history by lifecycle phase
+├── tool-specific/cursor-workflow/  # Cursor traceability (spec, tasks, rules)
+├── candidate-info.md      # AI Capability Exercise — candidate metadata
+├── requirements-analysis.md, acceptance-criteria.md, implementation-plan.md
+├── design-notes.md, api-contract.md, data-model.md, ui-flow.md
+├── test-strategy.md, test-results.md, debugging-notes.md
+├── code-review-notes.md, review-fixes.md, reflection.md
+├── tool-workflow.md, pr-description.md, final-ai-usage-summary.md
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
 └── PROJECT_HEALTH.md
@@ -115,6 +130,7 @@ npx pnpm@9.15.4 install
 npx pnpm@9.15.4 db:migrate
 npx pnpm@9.15.4 db:seed
 npx pnpm@9.15.4 dev
+# If dev crashed or localhost hangs loading: bash scripts/dev-restart.sh
 ```
 
 | Service | URL |
@@ -217,7 +233,7 @@ cd apps/web
 pnpm test:e2e    # Playwright
 ```
 
-Strategy: [`docs/testing-strategy.md`](docs/testing-strategy.md).
+Strategy: [`test-strategy.md`](test-strategy.md) (assessment) and [`docs/testing-strategy.md`](docs/testing-strategy.md) (engineering). Latest run notes: [`test-results.md`](test-results.md).
 
 ---
 
@@ -268,6 +284,22 @@ Internal TO THE NEW engineering. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 | RBAC | [`docs/roles-and-permissions.md`](docs/roles-and-permissions.md) |
 | Security | [`docs/security-guide.md`](docs/security-guide.md) |
 | Cursor rules | [`.cursor/rules/`](.cursor/rules/) |
+
+### AI Capability Exercise (assessment artifacts)
+
+These files document requirement analysis → implementation → testing → review with **prompt history** and traceability to the real KnowledgeHub codebase (not a ticket system).
+
+| Phase | Files |
+|-------|--------|
+| Context | [`candidate-info.md`](candidate-info.md), [`tool-workflow.md`](tool-workflow.md) |
+| Requirements | [`requirements-analysis.md`](requirements-analysis.md), [`acceptance-criteria.md`](acceptance-criteria.md), [`implementation-plan.md`](implementation-plan.md) |
+| Design | [`design-notes.md`](design-notes.md), [`api-contract.md`](api-contract.md), [`data-model.md`](data-model.md), [`ui-flow.md`](ui-flow.md) |
+| Quality | [`test-strategy.md`](test-strategy.md), [`test-results.md`](test-results.md), [`debugging-notes.md`](debugging-notes.md) |
+| Review | [`code-review-notes.md`](code-review-notes.md), [`review-fixes.md`](review-fixes.md), [`reflection.md`](reflection.md), [`pr-description.md`](pr-description.md) |
+| AI summary | [`final-ai-usage-summary.md`](final-ai-usage-summary.md), [`ai-prompts/`](ai-prompts/) |
+| Cursor workflow | [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) |
+| Database | [`database/setup-notes.md`](database/setup-notes.md), [`database/schema-or-migrations/`](database/schema-or-migrations/), [`database/seed-data/`](database/seed-data/) |
+| Compliance report | [`ASSESSMENT_COMPLIANCE_REPORT.md`](ASSESSMENT_COMPLIANCE_REPORT.md) |
 
 ---
 
